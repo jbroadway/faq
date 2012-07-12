@@ -1,0 +1,13 @@
+<ol class="faq-list">
+{% foreach list %}
+	<li><a href="#faq-{{loop_value->id}}">{{loop_value->question}}</a></li>
+{% end %}
+</ol>
+
+{% foreach list %}
+<div class="faq-question">
+<a name="faq-{{loop_value->id}}"></a>
+<h3>Q. {{loop_value->question}}</h3>
+<p class="faq-answer">{{loop_value->answer|none}}</p>
+</div>
+{% end %}
