@@ -7,6 +7,8 @@ $page->title = i18n_get ('Edit question');
 
 $form = new Form ('post', $this);
 
+echo $tpl->render ('admin/wysiwyg');
+
 $form->data = new faq\Faq ($_GET['id']);
 
 echo $form->handle (function ($form) {
