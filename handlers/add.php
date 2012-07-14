@@ -21,7 +21,7 @@ echo $form->handle (function ($form) {
 		return false;
 	}
 
-	// Save a version of the contact
+	// Save a version of the faq
 	Versions::add ($faq);
 
 	// Notify the user and redirect on success
