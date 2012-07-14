@@ -13,7 +13,8 @@ echo $form->handle (function ($form) {
 	// Create and save a new faq
 	$faq = new faq\Faq (array (
 		'question' => $_POST['question'],
-		'answer' => $_POST['answer']
+		'answer' => $_POST['answer'],
+		'sort' => faq\Faq::next_num ()
 	));
 	$faq->put ();
 

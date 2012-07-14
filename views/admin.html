@@ -7,18 +7,52 @@
 		<th width="42%">{" Answer "}</th>
 		<th width="16%">&nbsp;</th>
 	</tr>
+	<tbody id="sortable">
 {% foreach items %}
-	<tr>
-		<td>{{ loop_value->question }}</td>
-		<td title="{{ loop_value->answer|strip_tags }}">{{ loop_value->answer|strip_tags|trim|substr (%s, 0, 77) }}...</td>
-		<td>
+	<tr id="{{ loop_value->id }}">
+		<td class="handle">{{ loop_value->question }}</td>
+		<td class="handle" title="{{ loop_value->answer|strip_tags }}">{{ loop_value->answer|strip_tags|trim|substr (%s, 0, 77) }}...</td>
+		<td class="handle">
 			<a	href="/faq/edit?id={{ loop_value->id }}">{"Edit"}</a> |
 			<a	href="/faq/delete?id={{ loop_value->id }}"
 				onclick="return confirm ('{"Are you sure you want to delete this question?"}')">{"Delete"}</a>
 		</td>
 	</tr>
 {% end %}
+	</tbody>
 </table>
 </p>
 
 {! navigation/pager?style=text&url=[url]&total=[total]&count=[count]&limit=[limit] !}
+
+<script>
+$(function () {
+	$('#sortable').sortable ({
+		handle: '.handle',
+		update: function () {
+			var data = {
+				list: $('#sortable').sortable ('toArray')
+			};
+			console.log (data);
+
+			$.ajax ({
+				url: '/faq/sort',
+				type: 'post',
+				data: data,
+				success: function () {
+					$.add_notification ('Sorting order updated.');
+				},
+				error: function () {
+					$.add_notification ('Failed to save the new sorting order.');
+				}
+			});
+		}
+	});
+});
+</script>
+
+<style>
+.handle:hover {
+	cursor: move;
+}
+</style>
