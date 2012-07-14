@@ -5,7 +5,7 @@ if (! $this->internal) {
 }
 
 $list = faq\Faq::query ()
-	->order ('id', 'asc')
+	->order ('sort', 'asc')
 	->fetch_orig ();
 
 echo $tpl->render ('faq/index', array ('list' => $list));
