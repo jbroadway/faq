@@ -7,7 +7,7 @@ $page->title = i18n_get ('Add question');
 
 $form = new Form ('post', $this);
 
-echo $tpl->render ('admin/wysiwyg');
+$this->run ('admin/util/wysiwyg', array ('field_id' => 'webpage-body'));
 
 echo $form->handle (function ($form) {
 	// Create and save a new faq
