@@ -1,8 +1,10 @@
+{% if links === 'yes' %}
 <ol class="faq-list">
 {% foreach list %}
 	<li><a href="#faq-{{loop_value->id}}">{{loop_value->question}}</a></li>
 {% end %}
 </ol>
+{% end %}
 
 {% foreach list %}
 <div class="faq-question">

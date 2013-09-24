@@ -1,5 +1,11 @@
 ; <?php
 
+[FAQ]
+
+title = FAQ
+
+include_in_nav = On
+
 [Admin]
 
 handler = faq/admin
