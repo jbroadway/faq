@@ -1,8 +1,8 @@
-create table faq (
+create table #prefix#faq (
 	id integer primary key,
-	question char(48) not null,
-	answer char(48) not null,
+	question char(128) not null,
+	answer text not null,
 	sort int not null
 );
 
-create index faq_sort on faq (sort);
+create index #prefix#faq_sort on #prefix#faq (sort);
