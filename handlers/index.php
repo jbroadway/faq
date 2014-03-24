@@ -1,6 +1,7 @@
 <?php
 
 if (! $this->internal) {
+	$page->id = 'faq';
 	$page->title = Appconf::faq ('FAQ', 'title');
 }
 
