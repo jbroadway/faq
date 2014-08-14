@@ -1,16 +1,24 @@
-<p><a href="/faq/add">{"Add question"}</a></p>
+<p>
+	<a href="/faq/add">{"Add question"}</a>
+	{% if User::require_acl ('settings') %}
+	&nbsp;|&nbsp;
+	<a href="/faq/settings">{"Settings"}</a>
+	{% end %}
+</p>
 
 <p>
 <table width="100%">
 	<tr>
-		<th width="42%">{" Question "}</th>
-		<th width="42%">{" Answer "}</th>
-		<th width="16%">&nbsp;</th>
+		<th width="34%">{" Question "}</th>
+		<th width="12%">{" Category "}</th>
+		<th width="38%">{" Answer "}</th>
+		<th width="8%">&nbsp;</th>
 	</tr>
-	<tbody id="sortable">
+	<tbody class="sortable" data-category="{{ loop_value->category_id }}">
 {% foreach items %}
 	<tr id="{{ loop_value->id }}">
 		<td class="handle">{{ loop_value->question }}</td>
+		<td class="handle">{{ loop_value->category|faq\Category::filter_name }}</td>
 		<td class="handle" title="{{ loop_value->answer|strip_tags }}">{{ loop_value->answer|strip_tags|trim|substr (%s, 0, 77) }}...</td>
 		<td class="handle">
 			<a	href="/faq/edit?id={{ loop_value->id }}">{"Edit"}</a> |
@@ -23,17 +31,15 @@
 </table>
 </p>
 
-{! navigation/pager?style=text&url=[url]&total=[total]&count=[count]&limit=[limit] !}
-
 <script>
 $(function () {
-	$('#sortable').sortable ({
+	$('.sortable').sortable ({
 		handle: '.handle',
 		update: function () {
 			var data = {
-				list: $('#sortable').sortable ('toArray')
+				list: $(this).sortable ('toArray'),
+				category: $(this).data ('category')
 			};
-			console.log (data);
 
 			$.ajax ({
 				url: '/faq/sort',

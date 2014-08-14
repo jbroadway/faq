@@ -12,18 +12,14 @@ $current = $this->installed ($this->app, $version);
 
 if ($current === true) {
 	// app is already installed and up-to-date, stop here
-	$page->title = __ ('Already installed');
+	$page->title = __ ('Already up-to-date');
 	printf ('<p><a href="/%s/admin">%s</a>', $this->app, __ ('Continue'));
 	return;
-
-} elseif ($current !== false) {
-	// earlier version found, redirect to upgrade handler
-	$this->redirect ('/' . Appconf::get ($this->app, 'Admin', 'upgrade'));
 }
 
 $page->title = sprintf (
 	'%s: %s',
-	__ ('Installing App'),
+	__ ('Upgrading App'),
 	Appconf::get ($this->app, 'Admin', 'name')
 );
 
@@ -33,7 +29,7 @@ $driver = $conn['driver'];
 DB::beginTransaction ();
 
 // parse the database schema into individual queries
-$file = 'apps/' . $this->app . '/conf/install_' . $driver . '.sql';
+$file = 'apps/' . $this->app . '/conf/upgrade_' . Appconf::get ($this->app, 'Admin', 'version') . '_' . $driver . '.sql';
 if (file_exists ($file)) {
 	$sql = sql_split (file_get_contents ($file));
 

@@ -3,14 +3,15 @@
 [FAQ]
 
 title = FAQ
-
+layout = default
 include_in_nav = On
 
 [Admin]
 
-handler = faq/admin
 name = FAQ
+version = 0.9.2-beta
+handler = faq/admin
 install = faq/install
-version = 0.9.0-beta
+upgrade = faq/upgrade
 
 ; */ ?>

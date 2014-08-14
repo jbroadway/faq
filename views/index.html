@@ -1,15 +1,26 @@
-{% if links === 'yes' %}
-<ol class="faq-list">
-{% foreach list %}
-	<li><a href="#faq-{{loop_value->id}}">{{loop_value->question}}</a></li>
-{% end %}
-</ol>
-{% end %}
+{{ previous_category = null }}
 
-{% foreach list %}
-<div class="faq-question">
-<a name="faq-{{loop_value->id}}"></a>
-<h3>Q. {{loop_value->question}}</h3>
-<p class="faq-answer">{{loop_value->answer|none}}</p>
-</div>
+{% foreach list as faq %}
+
+	{% if faq->category_id != $data->previous_category %}
+		
+		<h2>{{category_name}}</h2>
+		{{ previous_category = $data->faq->category_id %}
+
+		{% if links === 'yes' %}
+			<ol class="faq-list">
+			{% foreach list as _faq %}
+				{% if _faq->category == $data->faq->category %}
+					<li><a href="#faq-{{_faq->id}}">{{_faq->question}}</a></li>
+				{% end %}
+			{% end %}
+			</ol>
+		{% end %}
+	{% end %}
+
+	<div class="faq-question">
+		<a name="faq-{{faq->id}}"></a>
+		<h3>Q. {{faq->question}}</h3>
+		<p class="faq-answer">{{faq->answer|none}}</p>
+	</div>
 {% end %}

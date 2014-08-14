@@ -1,12 +1,8 @@
-create sequence #prefix#faq_id_seq;
+alter table #prefix#faq drop constraint #prefix#faq_sort;
 
-create table #prefix#faq (
-	id integer not null default nextval('#prefix#faq_id_seq') primary key,
-	question char(128) not null,
-	answer text not null,
-	sort int not null,
-	category int not null default 0
-);
+alter table #prefix#faq add column category int not null default 0;
+
+create index #prefix#faq_sort on #prefix#faq (category, sort);
 
 create index #prefix#faq_sort on #prefix#faq (category, sort);
 

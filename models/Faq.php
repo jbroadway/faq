@@ -19,6 +19,25 @@ class Faq extends \Model {
 			(object) array ('key' => 'yes', 'value' => __ ('Yes')),
 		);
 	}
+	
+	public static function all () {
+		return array_merge (
+			self::query ('*, 0 as category_id')
+				->where ('category', 0)
+				->order ('sort', 'asc')
+				->fetch_orig (),
+			self::query ('f.*, c.id as category_id, c.name as category_name')
+				->from ('#prefix#faq f, #prefix#faq_category c')
+				->where ('f.category = c.id')
+				->order ('c.name', 'asc')
+				->order ('f.sort', 'asc')
+				->fetch_orig ()
+		);
+	}
+	
+	public static function by_category ($category) {
+		
+	}
 }
 
 ?>
