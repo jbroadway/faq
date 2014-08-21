@@ -21,18 +21,36 @@ class Faq extends \Model {
 	}
 	
 	public static function all () {
-		return array_merge (
-			self::query ('*, 0 as category_id')
-				->where ('category', 0)
-				->order ('sort', 'asc')
-				->fetch_orig (),
-			self::query ('f.*, c.id as category_id, c.name as category_name')
-				->from ('#prefix#faq f, #prefix#faq_category c')
-				->where ('f.category = c.id')
-				->order ('c.name', 'asc')
-				->order ('f.sort', 'asc')
-				->fetch_orig ()
+		$categories = Category::query ()
+			->order ('name', 'asc')
+			->fetch_orig ();
+
+		$out = array (
+			0 => (object) array (
+				'id' => 0,
+				'name' => '',
+				'items' => array ()
+			)
 		);
+		
+		foreach ($categories as $category) {
+			$category->items = array ();
+			$out[$category->id] = $category;
+		}
+
+		$questions = self::query ()
+			->order ('sort', 'asc')
+			->fetch_orig ();
+
+		foreach ($questions as $question) {
+			if (! isset ($out[$question->category])) {
+				$question->category = 0;
+			}
+
+			$out[$question->category]->items[] = $question;
+		}
+		
+		return $out;
 	}
 	
 	public static function by_category ($category) {

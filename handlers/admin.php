@@ -6,7 +6,7 @@ $page->layout = 'admin';
 $page->title = i18n_get ('FAQ');
 
 // Fetch the items
-$items = faq\Faq::all ();
+$all = faq\Faq::all ();
 
 // Add sortable from jQuery UI
 $page->add_style ('/js/jquery-ui/jquery-ui.css');
@@ -17,7 +17,7 @@ echo $tpl->render (
 	'faq/admin',
 	array (
 		'count' => count ($items),
-		'items' => $items
+		'all' => $all
 	)
 );
 

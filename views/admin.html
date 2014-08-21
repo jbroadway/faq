@@ -1,40 +1,50 @@
+{! admin/util/editable?url=/faq/category/edit !}
+
 <p>
 	<a href="/faq/add">{"Add question"}</a>
+	&nbsp;|&nbsp;
+	<a href="/faq/category/add">{"Add category"}</a>
 	{% if User::require_acl ('settings') %}
 	&nbsp;|&nbsp;
 	<a href="/faq/settings">{"Settings"}</a>
 	{% end %}
 </p>
 
-<p>
-<table width="100%">
-	<tr>
-		<th width="34%">{" Question "}</th>
-		<th width="12%">{" Category "}</th>
-		<th width="38%">{" Answer "}</th>
-		<th width="8%">&nbsp;</th>
-	</tr>
-	<tbody class="sortable" data-category="{{ loop_value->category_id }}">
-{% foreach items %}
-	<tr id="{{ loop_value->id }}">
-		<td class="handle">{{ loop_value->question }}</td>
-		<td class="handle">{{ loop_value->category|faq\Category::filter_name }}</td>
-		<td class="handle" title="{{ loop_value->answer|strip_tags }}">{{ loop_value->answer|strip_tags|trim|substr (%s, 0, 77) }}...</td>
-		<td class="handle">
-			<a	href="/faq/edit?id={{ loop_value->id }}">{"Edit"}</a> |
-			<a	href="/faq/delete?id={{ loop_value->id }}"
-				onclick="return confirm ('{"Are you sure you want to delete this question?"}')">{"Delete"}</a>
-		</td>
-	</tr>
+{% foreach all as category %}
+	{% if category->id != 0 %}
+		<h3 class="editable-text" id="{{category->id}}" data-delete="/faq/category/delete">{{category->name}}</h3>
+	{% end %}
+	
+	<ul class="sortable connected" data-category="{{ category->id }}">
+	
+	{% if is_array ($data->category->items) %}
+		{% foreach category->items as faq %}
+
+		<li id="{{ faq->id }}" data-category="{{ faq->category }}">
+			<h5>Q. {{ faq->question }}</h5>
+			<p class="faq-options">
+				<a	href="/faq/edit?id={{ faq->id }}">{"Edit"}</a> |
+				<a	href="/faq/delete"
+					data-id="{{ faq->id }}"
+					onclick="return $.confirm_and_post (this, '{"Are you sure you want to delete this question?"}')">{"Delete"}</a>
+			</p>
+			<p class="faq-answer">{{ faq->answer|strip_tags|trim|substr (%s, 0, 77) }}...</td>
+		</li>
+		{% end %}
+	{% else %}
+	<ul class="sortable conencted" data-category="0">
+		
+	</ul>
+	{% end %}
+
+	</ul>
 {% end %}
-	</tbody>
-</table>
-</p>
 
 <script>
 $(function () {
 	$('.sortable').sortable ({
-		handle: '.handle',
+		connectWith: '.connected',
+		placeholder: 'placeholder',
 		update: function () {
 			var data = {
 				list: $(this).sortable ('toArray'),
@@ -58,7 +68,42 @@ $(function () {
 </script>
 
 <style>
-.handle:hover {
+.sortable {
+	list-style-type: none;
+	margin-left: 0;
+	padding: 1px 10px 5px 10px;
+}
+
+.sortable li {
+	list-style-type: none;
+	margin-left: 0;
+	padding-left: 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.sortable li h5 {
+	margin-bottom: 0;
+}
+
+.sortable li h5:hover {
 	cursor: move;
+}
+
+.faq-options,
+.faq-answer {
+	margin-bottom: 0;
+}
+
+.placeholder {
+	display: block;
+	height: 25px;
+	width: 100%;
+	background-color: #ddd;
+}
+
+.connected {
+	min-height: 25px;
+	background-color: #eee;
 }
 </style>

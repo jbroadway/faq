@@ -7,6 +7,10 @@ $page->title = i18n_get ('Add question');
 
 $form = new Form ('post', $this);
 
+$form->data = array (
+	'categories' => faq\Category::query ()->order ('name', 'asc')->fetch_assoc ('id', 'name')
+);
+
 $this->run ('admin/util/wysiwyg', array ('field_id' => 'webpage-body'));
 
 echo $form->handle (function ($form) {
@@ -14,6 +18,7 @@ echo $form->handle (function ($form) {
 	$faq = new faq\Faq (array (
 		'question' => $_POST['question'],
 		'answer' => $_POST['answer'],
+		'category' => $_POST['category'],
 		'sort' => faq\Faq::next_num ()
 	));
 	$faq->put ();

@@ -2,6 +2,16 @@
 <form method="post" id="{{ _form }}">
 
 <p>
+	{"Category"}:<br />
+	<select name="category">
+		<option value="0">{"No category"}</option>
+{% foreach categories as _id, _name %}
+		<option value="{{_id}}"{% if category == $data->_id %} selected{% end %}>{{_name}}</option>
+{% end %}
+	</select>
+</p>
+
+<p>
 	{"Question"}:<br />
 	<input type="text" name="question" value="{{ question|quotes }}" size="70" />
 	<span class="notice" id="question-notice">{"Please enter a question."}</span>

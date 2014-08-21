@@ -1,26 +1,25 @@
-{{ previous_category = null }}
+{{ previous_category = 0 }}
 
-{% foreach list as faq %}
+{% foreach all as category %}
 
-	{% if faq->category_id != $data->previous_category %}
-		
-		<h2>{{category_name}}</h2>
-		{{ previous_category = $data->faq->category_id %}
+	<a name="faq-category-{{category->id}}"></a>
+	<h2>{{category->name}}</h2>
 
-		{% if links === 'yes' %}
-			<ol class="faq-list">
-			{% foreach list as _faq %}
-				{% if _faq->category == $data->faq->category %}
-					<li><a href="#faq-{{_faq->id}}">{{_faq->question}}</a></li>
-				{% end %}
+	{% if links === 'yes' %}
+		<ol class="faq-list">
+		{% foreach category->items as faq %}
+			{% if faq->category == $data->faq->category %}
+				<li><a href="#faq-{{faq->id}}">{{faq->question}}</a></li>
 			{% end %}
-			</ol>
 		{% end %}
+		</ol>
 	{% end %}
 
-	<div class="faq-question">
-		<a name="faq-{{faq->id}}"></a>
-		<h3>Q. {{faq->question}}</h3>
-		<p class="faq-answer">{{faq->answer|none}}</p>
-	</div>
+	{% foreach category->items as faq %}
+		<div class="faq-question">
+			<a name="faq-{{faq->id}}"></a>
+			<h3>Q. {{faq->question}}</h3>
+			<p class="faq-answer">{{faq->answer|none}}</p>
+		</div>
+	{% end %}
 {% end %}

@@ -6,12 +6,12 @@ if (! $this->internal) {
 	$page->layout = Appconf::faq ('FAQ', 'layout');
 }
 
-$list = faq\Faq::all ();
+$all = faq\Faq::all ();
 
 echo $tpl->render (
 	'faq/index',
 	array (
-		'list' => $list,
+		'all' => $all,
 		'links' => isset ($data['links']) ? $data['links'] : 'yes'
 	)
 );
