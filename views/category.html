@@ -1,0 +1,17 @@
+{% if links === 'yes' %}
+	<ol class="faq-list">
+	{% foreach all as faq %}
+		{% if faq->category == $data->faq->category %}
+			<li><a href="#faq-{{faq->id}}">{{faq->question}}</a></li>
+		{% end %}
+	{% end %}
+	</ol>
+{% end %}
+
+{% foreach all as faq %}
+	<div class="faq-question">
+		<a name="faq-{{faq->id}}"></a>
+		<h3>Q. {{faq->question}}</h3>
+		<p class="faq-answer">{{faq->answer|none}}</p>
+	</div>
+{% end %}

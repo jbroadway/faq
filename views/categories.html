@@ -1,0 +1,5 @@
+<ul class="faq-categories">
+{% foreach list %}
+	<li><a href="/faq#faq-category-{{loop_value->id}}">{{loop_value->name}}</a></li>
+{% end %}
+</ul>

@@ -6,14 +6,29 @@ if (! $this->internal) {
 	$page->layout = Appconf::faq ('FAQ', 'layout');
 }
 
-$all = faq\Faq::all ();
+if (isset ($data['category']) && ! empty ($data['category'])) {
+	$all = faq\Faq::query ()
+		->where ('category', $data['category'])
+		->order ('sort', 'asc')
+		->fetch_orig ();
+	
+	echo $tpl->render (
+		'faq/category',
+		array (
+			'all' => $all,
+			'links' => isset ($data['links']) ? $data['links'] : 'yes'
+		)
+	);
+} else {
+	$all = faq\Faq::all ();
 
-echo $tpl->render (
-	'faq/index',
-	array (
-		'all' => $all,
-		'links' => isset ($data['links']) ? $data['links'] : 'yes'
-	)
-);
+	echo $tpl->render (
+		'faq/index',
+		array (
+			'all' => $all,
+			'links' => isset ($data['links']) ? $data['links'] : 'yes'
+		)
+	);
+}
 
 ?>

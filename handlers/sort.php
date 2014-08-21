@@ -9,7 +9,7 @@ $this->require_admin ();
 $page->layout = false;
 
 if (! faq\Faq::batch (function () {
-	error_log (json_encode ($_POST));
+	//error_log (json_encode ($_POST));
 	$c = count ($_POST['list']);
 	for ($i = 0; $i < $c; $i++) {
 		if (! DB::execute (

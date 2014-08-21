@@ -13,6 +13,8 @@
 {% foreach all as category %}
 	{% if category->id != 0 %}
 		<h3 class="editable-text" id="{{category->id}}" data-delete="/faq/category/delete">{{category->name}}</h3>
+	{% else %}
+		<h3>{"Uncategorized"}</h3>
 	{% end %}
 	
 	<ul class="sortable connected" data-category="{{ category->id }}">
@@ -100,10 +102,16 @@ $(function () {
 	height: 25px;
 	width: 100%;
 	background-color: #ddd;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 .connected {
 	min-height: 25px;
 	background-color: #eee;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 </style>
