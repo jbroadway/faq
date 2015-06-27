@@ -5,6 +5,16 @@ namespace faq;
 class Faq extends \Model {
 	public $table = '#prefix#faq';
 	
+	/**
+	 * Display name for this model type.
+	 */
+	public static $display_name = 'FAQ';
+	
+	/**
+	 * Plural display name for this model type.
+	 */
+	public static $plural_name = 'FAQs';
+	
 	public static function next_num () {
 		$res = \DB::shift ('select sort + 1 from #prefix#faq order by sort desc limit 1');
 		if (! $res) {
