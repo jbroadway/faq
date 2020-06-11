@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Display FAQ categories.
+ */
+
 $list = faq\Category::query ()
 	->order ('name', 'asc')
 	->fetch_orig ();
@@ -7,7 +11,8 @@ $list = faq\Category::query ()
 echo $tpl->render (
 	'faq/categories',
 	array (
-		'list' => $list
+		'list' => $list,
+		'links' => isset ($data['links']) ? $data['links'] : 'default'
 	)
 );
 

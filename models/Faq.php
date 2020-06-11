@@ -23,13 +23,6 @@ class Faq extends \Model {
 		return $res;
 	}
 	
-	public static function yes_no () {
-		return array (
-			(object) array ('key' => 'no', 'value' => __ ('No')),
-			(object) array ('key' => 'yes', 'value' => __ ('Yes')),
-		);
-	}
-	
 	public static function all () {
 		$categories = Category::query ()
 			->order ('name', 'asc')

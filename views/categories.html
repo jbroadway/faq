@@ -1,5 +1,5 @@
 <ul class="faq-categories">
 {% foreach list %}
-	<li><a href="/faq#faq-category-{{loop_value->id}}">{{loop_value->name}}</a></li>
+	<li><a href="{% if links == 'default' %}/faq{% end %}#faq-category-{{loop_value->id}}">{{loop_value->name}}</a></li>
 {% end %}
 </ul>
