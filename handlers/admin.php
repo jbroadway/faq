@@ -16,7 +16,7 @@ $page->add_script ('/js/jquery-ui/jquery-ui.min.js');
 echo $tpl->render (
 	'faq/admin',
 	array (
-		'count' => count ($items),
+		'count' => count ($all),
 		'all' => $all
 	)
 );
